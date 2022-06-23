@@ -1,0 +1,55 @@
+---
+title: "Data_Adapt_TMT_source_file_to_current_proteomics_ETL_pipeline"
+author: "Jared Hendrickson"
+date: "6/23/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+rm(list = ls())
+
+```
+
+```{r}
+
+library(synapser)
+library(tidyverse)
+
+```
+
+```{r}
+
+synLogin()
+
+fileEntity <- synGet("syn28544692")
+
+print(fileEntity)
+
+```
+```{r}
+
+table <- read.csv(fileEntity$path)
+
+table_edited <- table %>%
+  mutate(Tissue = "DLPFC")
+
+fileName <- "Final_Agora_DE_TMT.csv"
+
+write.csv(table_edited, "Final_Agora_DE_TMT.csv", row.names = FALSE)
+
+```
+
+
+```{r}
+
+file <- File(path = fileName, parent = "syn19275585")
+file <- synStore(file)
+
+```
+
+
